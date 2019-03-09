@@ -1,0 +1,153 @@
+Step: build-step-credential-initializer:
+
+{"level":"warn","ts":1552159370.4904077,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1552159370.4920347,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Step: build-step-git-source-0:
+
+{"level":"warn","ts":1552159372.1457937,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1552159373.6162257,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/jenkinsxworkshop/goscalebooth.git\" @ \"ebf9df46228cf0797fcf1b09faf5427bb028df6d\" in path \"/workspace\""}
+Step: build-step-jenkins:
+
+Picked up _JAVA_OPTIONS: -Xmx400m
+Started
+Running in Durability level: PERFORMANCE_OPTIMIZED
+  20.838 [id=31]	WARNING	i.f.k.c.i.VersionUsageUtils#alert: The client is using resource type 'customresourcedefinitions' with unstable version 'v1beta1'
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /tmp/jenkinsTests.tmp/jenkins5594401276106888259test/workspace/job
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withCredentials
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (CI Build and push snapshot)
+Stage "CI Build and push snapshot" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Release)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/jenkinsxworkshop/goscalebooth
+[Pipeline] {
+[Pipeline] git
+Cloning the remote Git repository
+Cloning repository https://github.com/jenkinsxworkshop/goscalebooth.git
+ > git init /home/jenkins/go/src/github.com/jenkinsxworkshop/goscalebooth # timeout=10
+Fetching upstream changes from https://github.com/jenkinsxworkshop/goscalebooth.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/jenkinsxworkshop/goscalebooth.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/jenkinsxworkshop/goscalebooth.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/jenkinsxworkshop/goscalebooth.git # timeout=10
+Fetching upstream changes from https://github.com/jenkinsxworkshop/goscalebooth.git
+ > git fetch --tags --progress https://github.com/jenkinsxworkshop/goscalebooth.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision ebf9df46228cf0797fcf1b09faf5427bb028df6d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f ebf9df46228cf0797fcf1b09faf5427bb028df6d
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master ebf9df46228cf0797fcf1b09faf5427bb028df6d
+Commit message: "Merge pull request #1 from jenkinsxworkshop/workshop"
+First time build. Skipping changelog.
+[Pipeline] sh
++ jx-release-version
++ echo 0.0.2
+[Pipeline] sh
++ cat VERSION
++ jx step tag --version 0.0.2
+Tag v0.0.2 created and pushed to remote origin
+[Pipeline] sh
++ make build
+CGO_ENABLED=0 GO15VENDOREXPERIMENT=1 go build -ldflags '' -o bin/goscalebooth main.go
+[Pipeline] sh
++ cat VERSION
++ export VERSION=0.0.2
++ skaffold build -f skaffold.yaml
+time="2019-03-09T19:23:47Z" level=warning msg="config version (skaffold/v1beta2) out of date: upgrading to latest (skaffold/v1beta6)"
+Generating Tag for [changeme]...
+Starting build...
+Building [changeme]...
+Sending build context to Docker daemon  525.8kBSending build context to Docker daemon  6.502MB
+Step 1/4 : FROM scratch
+ ---> 
+Step 2/4 : EXPOSE 8080
+ ---> Using cache
+ ---> 4f70866432ea
+Step 3/4 : ENTRYPOINT /goscalebooth
+ ---> Using cache
+ ---> bb5e30c6309e
+Step 4/4 : COPY ./bin/ /
+ ---> Using cache
+ ---> a798a057c22a
+Successfully built a798a057c22a
+The push refers to a repository [10.63.240.164:5000/jenkinsxworkshop/goscalebooth]
+09f4d0ecb18f: Preparing
+09f4d0ecb18f: Layer already exists
+0.0.2: digest: sha256:4fb256648763ff4215e7499ee8e514c3e8a6c05c5cab5b575c893e5db4d692bd size: 528
+Build complete in 224.390822ms
+Starting test...
+Test complete in 6.218µs
+changeme -> 10.63.240.164:5000/jenkinsxworkshop/goscalebooth:0.0.2@sha256:4fb256648763ff4215e7499ee8e514c3e8a6c05c5cab5b575c893e5db4d692bd
+[Pipeline] sh
++ cat VERSION
++ jx step post build --image 10.63.240.164:5000/jenkinsxworkshop/goscalebooth:0.0.2
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promote to Environments)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/jenkinsxworkshop/goscalebooth/charts/goscalebooth
+[Pipeline] {
+[Pipeline] sh
++ cat ../../VERSION
++ jx step changelog --version v0.0.2
+Using batch mode as inside a pipeline
+Generating change log from git ref ebf9df46228cf0797fcf1b09faf5427bb028df6d => 02e2952d7f5e79cd5b3ce1d3eac6d30d44e87a57
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Finding issues in commit messages using git format
+No release found for jenkinsxworkshop/goscalebooth and tag v0.0.2 so creating a new release
+Updated the release information at https://github.com/jenkinsxworkshop/goscalebooth/releases/tag/v0.0.2
+generated: /home/jenkins/go/src/github.com/jenkinsxworkshop/goscalebooth/charts/goscalebooth/templates/release.yaml
+Created Release goscalebooth-0-0-2 resource in namespace jx
+Updating PipelineActivity jenkinsxworkshop-goscalebooth-master-2 with version 0.0.2
+Updated PipelineActivities jenkinsxworkshop-goscalebooth-master-2 with release notes URL: https://github.com/jenkinsxworkshop/goscalebooth/releases/tag/v0.0.2
+[Pipeline] sh
++ jx step helm release
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Uploading chart file goscalebooth-0.0.2.tgz to http://jenkins-x-chartmuseum:8080/api/charts
+Received 201 response: {"saved":true}
+[Pipeline] sh
++ cat ../../VERSION
++ jx promote -b --all-auto --timeout 1h --version 0.0.2
+prow based install so skip waiting for the merge of Pull Requests to go green as currently there is an issue with gettingstatuses from the PR, see https://github.com/jenkins-x/jx/issues/2410
+Promoting app goscalebooth version 0.0.2 to namespace jx-staging
+Created Pull Request: https://github.com/jenkinsxworkshop/environment-scaleserverlessmar9-staging/pull/2
+
+Pull Request https://github.com/jenkinsxworkshop/environment-scaleserverlessmar9-staging/pull/2 is merged at sha c0a7c1fef183bf4cda7142cb25792206981672cd
+Pull Request merged but we are not waiting for the update pipeline to complete!
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
